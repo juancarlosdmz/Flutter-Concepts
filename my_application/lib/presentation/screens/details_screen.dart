@@ -1,6 +1,5 @@
 // presentation/screens/details_screen.dart
 import 'package:flutter/material.dart';
-
 class DetailsScreen extends StatelessWidget {
   final int counter;
 
@@ -9,7 +8,10 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Details Screen')),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: const Text("Details Screen"),
+      ),
       body: Center(child: Text('Counter Value: $counter', style: const TextStyle(fontSize: 24))),
     );
   }

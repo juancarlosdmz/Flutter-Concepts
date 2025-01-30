@@ -19,11 +19,13 @@ class HomeScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: null,
             onPressed: counterNotifier.increment,
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
+            heroTag: 'detailsButton',
             onPressed: () {
               context.pushNamed('details', pathParameters: {'counter': counter.toString()}); // Navigate with counter value
             },
