@@ -1,41 +1,36 @@
 // presentation/providers/counter_provider.dart
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../application/use_cases/increment_counter.dart';
 import '../../data/repositories/counter_repository_impl.dart';
 
-// Provider for Repository
-final counterRepositoryProvider = Provider<CounterRepositoryImpl>(
-  (ref) => CounterRepositoryImpl(),
-);
+part 'counter_provider.g.dart';
 
-// Provider for Use Case
-final incrementCounterProvider = Provider<IncrementCounter>(
-  (ref) {
-    final repository = ref.read(counterRepositoryProvider);
-    return IncrementCounter(repository);
-  },
-);
+@riverpod
+CounterRepositoryImpl counterRepository(Ref ref) {
+  return CounterRepositoryImpl();
+}
 
-// State Provider for Counter Value
-final counterProvider = StateNotifierProvider<CounterNotifier, int>((ref) {
-  final useCase = ref.read(incrementCounterProvider);
-  return CounterNotifier(useCase);
-});
+@riverpod
+IncrementCounter incrementCounter(Ref ref) {
+  final repository = ref.read(counterRepositoryProvider);
+  return IncrementCounter(repository);
+}
 
-class CounterNotifier extends StateNotifier<int> {
-  final IncrementCounter _useCase;
-
-  CounterNotifier(this._useCase) : super(0) {
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() {
     _loadCounter();
+    return 0; // Initial state
   }
 
   Future<void> _loadCounter() async {
-    state = await _useCase.repository.getCounter();
+    state = await ref.read(counterRepositoryProvider).getCounter();
   }
 
   Future<void> increment() async {
-    state = await _useCase.execute();
+    state = await ref.read(incrementCounterProvider).execute();
   }
 }

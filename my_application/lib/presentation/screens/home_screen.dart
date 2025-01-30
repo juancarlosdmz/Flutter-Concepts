@@ -10,7 +10,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final counter = ref.watch(counterProvider);
-    final counterNotifier = ref.read(counterProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Home Screen')),
@@ -20,7 +19,7 @@ class HomeScreen extends ConsumerWidget {
         children: [
           FloatingActionButton(
             heroTag: null,
-            onPressed: counterNotifier.increment,
+            onPressed: ref.read(counterProvider.notifier).increment,
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 10),
